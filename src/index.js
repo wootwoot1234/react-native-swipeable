@@ -1,12 +1,12 @@
 /* eslint-disable import/no-unresolved, import/extensions */
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 import {Animated, Easing, PanResponder, StyleSheet, View, ViewPropTypes} from 'react-native';
 import {PropTypes} from 'prop-types';
 /* eslint-enable import/no-unresolved, import/extensions */
 
 function noop() {}
 
-export default class Swipeable extends PureComponent {
+export default class Swipeable extends Component {
 
   static propTypes = {
     // elements
@@ -184,6 +184,21 @@ export default class Swipeable extends PureComponent {
 
   componentWillUnmount() {
     this._unmounted = true;
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (
+      this.state.leftActionActivated != nextState.leftActionActivated ||
+      this.state.leftButtonsActivated != nextState.leftButtonsActivated ||
+      this.state.leftButtonsOpen != nextState.leftButtonsOpen ||
+      this.state.rightActionActivated != nextState.rightActionActivated ||
+      this.state.rightButtonsActivated != nextState.rightButtonsActivated ||
+      this.state.rightButtonsOpen != nextState.rightButtonsOpen
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   recenter = (
